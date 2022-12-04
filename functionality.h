@@ -6,15 +6,17 @@
  * */
 
 //---Piece Starts to Fall When Game Starts---//
-void nxtBlockFn(int piece,int nxtBlock[4][2]) //nextBlock Guess Function
+void nxtBlockFn(int& nxtPiece,int& nxtColor,int nxtBlock[4][2]) //nextBlock Guess Function
 {
+    nxtPiece=rand()%7; //next piece
+    nxtColor=rand()%8; //next color
     for (int i=0;i<4;i++)
     {
-        nxtBlock[i][0] = BLOCKS[piece][i] % 2;
-        nxtBlock[i][1] = BLOCKS[piece][i] / 2; 
+        nxtBlock[i][0] = BLOCKS[nxtPiece][i] % 2;
+        nxtBlock[i][1] = BLOCKS[nxtPiece][i] / 2; 
     }
 }
-void fallingPiece(float& timer, float& delay, int& colorNum,int nextBlock[4][2]/*, bool lvlUP=0*/){
+void fallingPiece(float& timer, float& delay,bool rotate, int& colorNum,int& nxtPiece,int& nxtColor,int nextBlock[4][2]/*, bool lvlUP=0*/){
     if (timer>delay)
     {
         for (int i=0;i<4;i++){
@@ -33,9 +35,9 @@ void fallingPiece(float& timer, float& delay, int& colorNum,int nextBlock[4][2]/
             {
               gameGrid[point_1[i][1]][point_1[i][0]]=colorNum; //for storing the shape in gamegrid, color will be colorNum
             }
-            int n=rand()%7;
-            colorNum=rand()%8;
-            nxtBlockFn(n,nextBlock);
+            int n=nxtPiece;
+            colorNum=nxtColor;
+            nxtBlockFn(nxtPiece,nxtColor,nextBlock);
             //--- Un-Comment this Part When You Make BLOCKS array---//
             
                 for (int i=0;i<4;i++){
@@ -127,16 +129,16 @@ void menu()
 {
    std::cout<<"End"<<std::endl;
 }
-void firstRunFn(int& colorNum,int nxtBlock[4][2]) //a fn to remove a single piece as first shape when game starts
+void firstRunFn(int& colorNum,int& nxtPiece,int& nxtColor,int nxtBlock[4][2]) //a fn to remove a single piece as first shape when game starts
 {
       int n=rand()%7;
       colorNum=rand()%7;
-      nxtBlockFn(n,nxtBlock);
       for (int i=0;i<4;i++)
       {
         point_1[i][0] = BLOCKS[n][i] % 2; 
         point_1[i][1] = BLOCKS[n][i] / 2; 
       }
+      nxtBlockFn(nxtPiece,nxtColor,nxtBlock);
 }
 void instantDrop(int& colorNum)
 {

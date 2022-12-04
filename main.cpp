@@ -30,7 +30,7 @@ int main(){
     */
     Sprite sprite(obj1), background(obj2), frame(obj3),shadow(obj4),nextBlock(obj5);
     
-    int delta_x=0,score=0,colorNum=rand()%8,nxtBlock[4][2],tmp_1[4][2],tmp_2[4][2]; //tmp arrays are for shadow
+     int delta_x=0,score=0,colorNum=rand()%8,nxtPiece=rand()%7,nxtColor=rand()%8,nxtBlock[4][2],tmp_1[4][2],tmp_2[4][2]; //tmp arrays are for shadow
     float timer=0, delay=0.3;
     
     //skip will skip fallingpiece fn in case instant/hard drop fn is called
@@ -63,19 +63,18 @@ int main(){
               instantDrop(colorNum);
               skip=true;
             }
-        /*if(lvlUP)  //Will Check if the current level is advanced
+        if(lvlUP)  //Will Check if the current level is advanced
          {
             delay=0.1; //speed of block will be increased i.e. falling time will decrease
-         }*/
+         }
    
 
 
 
         ///////////////////////////////////////////////
-        ///*** START CALLING YOUR FUNCTIONS HERE ***///
-        if(firstRun) { firstRunFn(colorNum,nxtBlock);  firstRun=false; }
+        if(firstRun) { firstRunFn(colorNum,nxtPiece,nxtColor,nxtBlock);  firstRun=false; }
         
-        if(!skip) fallingPiece(timer, delay, colorNum,nxtBlock/*, lvlUP*/); //Example: fallingPiece() function is called here
+        if(!skip) fallingPiece(timer, delay,rotate,colorNum,nxtPiece,nxtColor,nxtBlock/*, lvlUP*/); //Example: fallingPiece() function is called here
         
         shadowFn(delta_x,colorNum,tmp_1,tmp_2);
         
@@ -117,7 +116,7 @@ int main(){
             window.draw(sprite);
           }
           for (int i=0; i<4; i++){
-            nextBlock.setTextureRect(IntRect(colorNum*18,0,18,18));
+            nextBlock.setTextureRect(IntRect(nxtColor*18,0,18,18));
             nextBlock.setPosition(nxtBlock[i][0]*18,nxtBlock[i][1]*18);
             nextBlock.move(250,150);
             window.draw(nextBlock);
