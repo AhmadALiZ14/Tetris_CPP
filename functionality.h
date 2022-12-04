@@ -6,20 +6,36 @@
  * */
 
 //---Piece Starts to Fall When Game Starts---//
-void fallingPiece(float& timer, float& delay, int& colorNum/*, bool lvlUP=0*/){
-    if (timer>delay){
+void nxtBlockFn(int piece,int nxtBlock[4][2]) //nextBlock Guess Function
+{
+    for (int i=0;i<4;i++)
+    {
+        nxtBlock[i][0] = BLOCKS[piece][i] % 2;
+        nxtBlock[i][1] = BLOCKS[piece][i] / 2; 
+    }
+}
+void fallingPiece(float& timer, float& delay, int& colorNum,int nextBlock[4][2]/*, bool lvlUP=0*/){
+    if (timer>delay)
+    {
         for (int i=0;i<4;i++){
             point_2[i][0]=point_1[i][0];
             point_2[i][1]=point_1[i][1];
             point_1[i][1]+=1;                   //How much units downward
         }
-        if (!anamoly()){
+        if (!anamoly())
+        {
+            for(int i=0;i<4;i++)
+            {
+               point_1[i][0]=point_2[i][0];
+               point_1[i][1]=point_2[i][1];
+            }      
             for (int i=0;i<4;i++)
             {
-              gameGrid[point_2[i][1]][point_2[i][0]]=colorNum; //for storing the shape in gamegrid, color will be colorNum
+              gameGrid[point_1[i][1]][point_1[i][0]]=colorNum; //for storing the shape in gamegrid, color will be colorNum
             }
             int n=rand()%7;
             colorNum=rand()%8;
+            nxtBlockFn(n,nextBlock);
             //--- Un-Comment this Part When You Make BLOCKS array---//
             
                 for (int i=0;i<4;i++){
@@ -37,22 +53,23 @@ void fallingPiece(float& timer, float& delay, int& colorNum/*, bool lvlUP=0*/){
 ///*** START CODING YOUR FUNTIONS HERE ***///
 void checkLine() //checks if a line is completely filled, if filled it clears it
 {
-    int k=0;
-    for (int i=0;i<M;i++) //loop will run till length of rows
+    int k=M-1;
+    for (int i=M-1;i>0;i--) //loop will run till length of rows
     {
-        int count=0;
-        for (int j=N;j>0;j--) //till columns
+        int filledCols=0;
+        for (int j=0;j<N;j++) //till columns
         {
             if (gameGrid[i][j]) //as it is in loop, only a specific row and a specific column will be checked, if 1 or filled
             {
-              count++; //in a single row it will tell how many columns are 1 or filled
+				filledCols++; //in a single row it will tell how many columns are 1 or filled
             }
             gameGrid[k][j]=gameGrid[i][j];
-        }
-        if (count<N) // if count is less than column ( N=10), it means a whole row is not filled 
+		}
+        if (filledCols<N) // if filled columns is less than total columns ( N=10), it means a whole row is not filled 
         {
-          k++;
+          k--;
         }
+		
     }
 }
 void movementFn(int delta_x)  // movement function (left and right movement)
@@ -66,25 +83,30 @@ void movementFn(int delta_x)  // movement function (left and right movement)
        {
           for (int i=0;i<4;i++)
           {
-            point_1[i][0]=point_2[i][0];
+            point_1[i][0]=point_2[i][0]; //if block overlaps or is out of gamegrid, we replace it with previous location
           }
        }
 }
-/*bool rotatePossible()
-{
-
-}*/
 void rotationFn() //Rotation Function
 {
     int temp_a,temp_b,i=0,centre_0=point_1[1][0],centre_1=point_1[1][1];
     // centre_0 is x-axis pivot, while center_1 is y-axis pivot, [1][0] or [1][1] 
     while(i<4)
     {
-      temp_a=point_1[i][1]-centre_1;
+      temp_a=point_1[i][1]-centre_1; 
       temp_b=point_1[i][0]-centre_0;
       point_1[i][0]=centre_0-temp_a;
       point_1[i][1]=centre_1+temp_b;
       i++;
+    }
+    if(!anamoly())
+    {
+     // if anamoly is 0 i.e. block is out of gamegrid or overlaps another block we replace it with it previous locaton i.e. point_2
+     for(int i=0;i<4;i++)
+      {
+        point_1[i][0]=point_2[i][0];
+        point_1[i][1]=point_2[i][1];
+      }
     }
 }
 
@@ -105,10 +127,11 @@ void menu()
 {
    std::cout<<"End"<<std::endl;
 }
-void firstRun(int& colorNum) //a fn to remove a single piece as first shape when game starts
+void firstRunFn(int& colorNum,int nxtBlock[4][2]) //a fn to remove a single piece as first shape when game starts
 {
       int n=rand()%7;
       colorNum=rand()%7;
+      nxtBlockFn(n,nxtBlock);
       for (int i=0;i<4;i++)
       {
         point_1[i][0] = BLOCKS[n][i] % 2; 
@@ -121,6 +144,7 @@ void instantDrop(int& colorNum)
   {
     for (int i=0;i<4;i++)
     {
+        //it is similar to fallingPiece fn but here it will keep falling until it reaches gameBoundary or another block i.e. anomaly is 0
         point_2[i][0]=point_1[i][0];
         point_2[i][1]=point_1[i][1];
         point_1[i][1]+=1; 
@@ -130,7 +154,10 @@ void instantDrop(int& colorNum)
     {
        for (int i=0;i<4;i++)
        {
-          gameGrid[point_2[i][1]][point_2[i][0]]=colorNum; //for storing the shape in gamegrid, color will be colorNum
+          //if anamolt is 0 i.e. block might overlap or get out of grid
+          //as point_2 is previous most locaton of point_1, we replace point_1 with it
+          point_1[i][0]=point_2[i][0];
+          point_1[i][1]=point_2[i][1]; 
        } 
        break;
     }
@@ -138,7 +165,7 @@ void instantDrop(int& colorNum)
   }
   
 }
-bool shadowAnamoly(int tmp1[4][2],int tmp2[4][2])
+bool shadowAnamoly(int tmp1[4][2],int tmp2[4][2]) //prevents shadow from overlapping other blocks or getting out of gamegrid
 {
     for (int i=0;i<4;i++)
         if (tmp1[i][0]<0 || tmp1[i][0]>=N || tmp1[i][1]>=M)
@@ -147,7 +174,7 @@ bool shadowAnamoly(int tmp1[4][2],int tmp2[4][2])
             return 0;
     return 1;
 }  
-void shadowMove(int delta_x,int tmp1[4][2],int tmp2[4][2])
+void shadowMove(int delta_x,int tmp1[4][2],int tmp2[4][2]) //left or right movement fn for shadow
 {
   for (int i=0;i<4;i++)  
        {
@@ -163,7 +190,7 @@ void shadowMove(int delta_x,int tmp1[4][2],int tmp2[4][2])
        }
 }
   
-void shadowFn(int delta_x, int colorNum,int tmp_1[4][2],int tmp_2[4][2])
+void shadowFn(int delta_x, int colorNum,int tmp_1[4][2],int tmp_2[4][2]) //down movement fn for shadow, it also syncs colorNum with original color of block
 {
   for(int i=0 ;i<4; i++)
   {
@@ -175,7 +202,7 @@ void shadowFn(int delta_x, int colorNum,int tmp_1[4][2],int tmp_2[4][2])
   }
 
   
-        while(shadowAnamoly(tmp_1,tmp_2))
+        while(shadowAnamoly(tmp_1,tmp_2)) //shadow will keep moving down, till it hits other blocks, as this happens in a single iteration of while window.isOpen, hence shadow will always be at bottom, similar to instant drop fn
         {
           for (int i=0;i<4;i++){
             tmp_2[i][0]=tmp_1[i][0];
@@ -184,10 +211,11 @@ void shadowFn(int delta_x, int colorNum,int tmp_1[4][2],int tmp_2[4][2])
         }
         }
      
-     if(delta_x)
+     if(delta_x) // if blocks moves shadow also moves
      {
-        shadowMove(delta_x,tmp_1,tmp_2);
+        shadowMove(delta_x,tmp_1,tmp_2); //calling shadow movement fn
      }
 }
+
 ///*** YOUR FUNCTIONS END HERE ***///
 /////////////////////////////////////

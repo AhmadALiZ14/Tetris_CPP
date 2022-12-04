@@ -19,18 +19,23 @@ using namespace sf;
 int main(){
     srand(time(0));
     RenderWindow window(VideoMode(320, 480), title);
-    Texture obj1, obj2, obj3,obj4;
+    Texture obj1, obj2, obj3,obj4,obj5;
     obj1.loadFromFile("img/tiles.png");
     obj2.loadFromFile("img/background.png");
     obj3.loadFromFile("img/frame.png");
-	obj4.loadFromFile("img/dim.png");
+    obj4.loadFromFile("img/dim.png");
+    obj5.loadFromFile("img/tiles.png");
     /*
         Load "frames.png","tiles.png" and "background.png" for Texture objects
     */
-    Sprite sprite(obj1), background(obj2), frame(obj3),shadow(obj4);
-    int delta_x=0,end=0, colorNum=1+rand()%7,run=1,tmp_1[4][2],tmp_2[4][2]; 
+    Sprite sprite(obj1), background(obj2), frame(obj3),shadow(obj4),nextBlock(obj5);
+    
+    int delta_x=0,score=0,colorNum=rand()%8,nxtBlock[4][2],tmp_1[4][2],tmp_2[4][2]; //tmp arrays are for shadow
     float timer=0, delay=0.3;
-    bool rotate=0,lvlUP=0,skip=false;
+    
+    //skip will skip fallingpiece fn in case instant/hard drop fn is called
+    //firstRun run when game starts thus replacing the first single block tetromino
+    bool rotate=false,firstRun=true,lvlUP=false,skip=false,isGameOver=false;
     Clock clock;
     while (window.isOpen()){
         float time = clock.getElapsedTime().asSeconds();
@@ -68,9 +73,9 @@ int main(){
 
         ///////////////////////////////////////////////
         ///*** START CALLING YOUR FUNCTIONS HERE ***///
-        if(run) { firstRun(colorNum);  run=0; }
+        if(firstRun) { firstRunFn(colorNum,nxtBlock);  firstRun=false; }
         
-        if(!skip) fallingPiece(timer, delay, colorNum/*, lvlUP*/); //Example: fallingPiece() function is called here
+        if(!skip) fallingPiece(timer, delay, colorNum,nxtBlock/*, lvlUP*/); //Example: fallingPiece() function is called here
         
         shadowFn(delta_x,colorNum,tmp_1,tmp_2);
         
@@ -110,6 +115,12 @@ int main(){
             sprite.setPosition(point_1[i][0]*18,point_1[i][1]*18);
             sprite.move(28,31);
             window.draw(sprite);
+          }
+          for (int i=0; i<4; i++){
+            nextBlock.setTextureRect(IntRect(colorNum*18,0,18,18));
+            nextBlock.setPosition(nxtBlock[i][0]*18,nxtBlock[i][1]*18);
+            nextBlock.move(250,150);
+            window.draw(nextBlock);
           }
         
         

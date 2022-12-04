@@ -7,11 +7,13 @@ Based on Minimial OOP, mostly basic C++
 --Current--:
            
            * Left,Right and Down Movements Possible
-           * Press END key to instantly move block till end
+           * Press Space key to instantly move block till end
+           * Ability to rotate blocks
+           * Shadow of a block that will tell user where block will fall 
+           * Next Block will also be shown to help the user
          
 --Future--:
            
-           * Ability to rotate blocks
            * A bomb will fall after random time, giving player some advantages
            * A complete Menu
            * Scoring : Live Score, High Scores
