@@ -39,12 +39,12 @@ int main(){
     nxtShape.setFont(design);
     scoreName.setFont(design);
     linesName.setFont(design);
-	ovrMsg1.setFont(design);
-	ovrMsg2.setFont(design);
+    ovrMsg1.setFont(design);
+    ovrMsg2.setFont(design);
     score.setCharacterSize(15);
     line.setCharacterSize(15);
-	ovrMsg1.setCharacterSize(25);
-	ovrMsg2.setCharacterSize(25);
+    ovrMsg1.setCharacterSize(25);
+    ovrMsg2.setCharacterSize(25);
     scoreName.setCharacterSize(15);
     linesName.setCharacterSize(15);
     nxtShape.setCharacterSize(15);
@@ -52,8 +52,8 @@ int main(){
     nxtShape.setString("Next Shape");
     scoreName.setString("Score");
     linesName.setString("Lines Cleared");
-	ovrMsg1.setString("Game Over!");
-	ovrMsg2.setString("Press Enter to Exit");
+    ovrMsg1.setString("Game Over!");
+    ovrMsg2.setString("Press Enter to Exit");
 
     
     //End of text part
@@ -74,7 +74,8 @@ int main(){
 	//Variables Declaration End
 	
     Clock clock;
-    while (window.isOpen()){
+    while (window.isOpen())
+    {
         float time = clock.getElapsedTime().asSeconds();
         clock.restart();
         timer+=time;
@@ -103,11 +104,13 @@ int main(){
 
 
 
-        ///////////////////////////////////////////////
+        /////////////////////////////////////////////////
+	//////////Calling Statements Start Here/////////
+	    
         if(firstRun) { firstRunFn(colorNum,nxtPiece,nxtColor,nxtBlock);  firstRun=false; } //first run function to get rid of first block
         
         if(!skip) fallingPiece(timer, delay,colorNum,nxtPiece,nxtColor,nxtBlock);
-		//Example: fallingPiece() function is called here
+		//fallingPiece() function is called here
         
         shadowFn(delta_x,colorNum,tmp_1,tmp_2);// shadow function
         
@@ -155,8 +158,10 @@ int main(){
         
         window.clear(Color::Black);
         window.draw(background);
-        for (int i=0; i<M; i++){
-            for (int j=0; j<N; j++){
+        for (int i=0; i<M; i++)
+	{
+            for (int j=0; j<N; j++)
+	    {
                 if (gameGrid[i][j]==0)
                     continue;
                 sprite.setTextureRect(IntRect(gameGrid[i][j]*18,0,18,18));
@@ -167,21 +172,25 @@ int main(){
         }
         
         
-        //setting position of shadow and drawing it on screen
-        for (int i=0; i<4; i++){
+        //setting position of shadow and drawing it
+         for (int i=0; i<4; i++)
+	 {
             shadow.setTextureRect(IntRect(colorNum*18,0,18,18));
             shadow.setPosition(tmp_2[i][0]*18,tmp_2[i][1]*18);
             shadow.move(28,31);
             window.draw(shadow);
-          }
-		for (int i=0; i<4; i++){
+         }
+	 //Setting Position of piece and drawing it
+	 for (int i=0; i<4; i++)
+	 {
             sprite.setTextureRect(IntRect(colorNum*18,0,18,18));
             sprite.setPosition(point_1[i][0]*18,point_1[i][1]*18);
             sprite.move(28,31);
             window.draw(sprite);
-          }
-         //setting position of next block on screen and displaying it
-         for (int i=0; i<4; i++){
+         }
+         //setting position of next block on screen and drawing it
+         for (int i=0; i<4; i++)
+	 {
             nextBlock.setTextureRect(IntRect(nxtColor*18,0,18,18));
             nextBlock.setPosition(nxtBlock[i][0]*18,nxtBlock[i][1]*18);
             nextBlock.move(260,150); 
@@ -190,7 +199,7 @@ int main(){
           
           //displaying scores,lines
           std::stringstream scr,lns; //scr for score,lns for lines
-		  scr << points;//updating points i.e. score
+          scr << points;//updating points i.e. score
           lns << lines; //updating lines cleared
           nxtShape.setPosition(240,110); //nxt shape heading position
           scoreName.setPosition(250,250);//score string position
