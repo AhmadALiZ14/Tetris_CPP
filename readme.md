@@ -18,7 +18,9 @@ Based on Minimial OOP, mostly basic C++
            
            * A bomb will fall after random time, giving player some advantages
            * A complete Menu
+           * Game Levels : Number of next Block Suggestions and falling speed
            * Scoring : High Scores
+           
                     
 
 -----------COMPILE AND RUN-----------
