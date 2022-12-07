@@ -1,5 +1,5 @@
-AhmedAZ14,CS,FASTNU
-Tetris Game in C++ using SFML Library
+* AhmedAZ14,CS,FASTNU
+* Tetris Game in C++ using SFML Library
 
 ---------FEATURES----------
 
