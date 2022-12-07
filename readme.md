@@ -11,12 +11,14 @@ Based on Minimial OOP, mostly basic C++
            * Ability to rotate blocks
            * Shadow of a block that will tell user where block will fall 
            * Next Block will also be shown to help the user
+           * Scoring : Lines Cleared and Points awarded
+           * Game Over Menu
          
 --Future--:
            
            * A bomb will fall after random time, giving player some advantages
            * A complete Menu
-           * Scoring : Live Score, High Scores
+           * Scoring : High Scores
                     
 
 -----------COMPILE AND RUN-----------
