@@ -20,6 +20,17 @@ void nxtBlockFn(int& nxtPiece,int& nxtColor,int nxtBlock[4][2]) //nextBlock Gues
         nxtBlock[i][1] = BLOCKS[nxtPiece][i] / 2; 
     }
 }
+void firstRunFn(int& colorNum,int& nxtPiece,int& nxtColor,int nxtBlock[4][2]) //a fn to remove a single piece as first shape when game starts
+{
+      int n=rand()%7;
+      colorNum=rand()%7;
+      for (int i=0;i<4;i++)
+      {
+        point_1[i][0] = BLOCKS[n][i] % 2; 
+        point_1[i][1] = BLOCKS[n][i] / 2; 
+      }
+      nxtBlockFn(nxtPiece,nxtColor,nxtBlock);
+}
 //---Piece Starts to Fall When Game Starts---//
 void fallingPiece(float& timer, float& delay, int& colorNum,int& nxtPiece,int& nxtColor,int nextBlock[4][2]){
     if (timer>delay)
@@ -42,7 +53,7 @@ void fallingPiece(float& timer, float& delay, int& colorNum,int& nxtPiece,int& n
             
             for (int i=0;i<4;i++)
             {
-                point_1[i][0] = BLOCKS[n][i] % 2; //it will extract random piece from BLOCKS, using value of n, as in BLOCKS array, each row has a different piece
+                point_1[i][0] = BLOCKS[n][i] % 2 + 4it will extract random piece from BLOCKS, using value of n, as in BLOCKS array, each row has a different piece
                 point_1[i][1] = BLOCKS[n][i] / 2; //same as above
             }
             
@@ -76,7 +87,7 @@ void checkLine(int& points,int& lines) //checks if a line is completely filled, 
 		  currLines++;
         }
     }
-	if(currLines==2)	points+=10; //(10*2) + 10=30
+	if(currLines==2)      points+=10; //(10*2) + 10=30
 	else if(currLines==3) points+=30;//10*3 + 30 =60
 	else if(currLines==4) points+=60;//10*4 + 60 = 100
 	else if(currLines==5) points+=100;//10*5 + 100=150
@@ -117,19 +128,7 @@ void rotationFn() //Rotation Function
         }
       }
 }
-
-void firstRunFn(int& colorNum,int& nxtPiece,int& nxtColor,int nxtBlock[4][2]) //a fn to remove a single piece as first shape when game starts
-{
-      int n=rand()%7;
-      colorNum=rand()%7;
-      for (int i=0;i<4;i++)
-      {
-        point_1[i][0] = BLOCKS[n][i] % 2; 
-        point_1[i][1] = BLOCKS[n][i] / 2; 
-      }
-      nxtBlockFn(nxtPiece,nxtColor,nxtBlock);
-}
-void instantDrop(int& colorNum)
+void instantDrop(int& colorNum) //Instant Drop Function
 {
   while(anamoly())
   {
@@ -206,25 +205,6 @@ void shadowFn(int delta_x, int colorNum,int tmp_1[4][2],int tmp_2[4][2]) //down 
      {
         shadowMove(delta_x,tmp_1,tmp_2); //calling shadow movement fn
      }
-}
-void resetFn()
-{
-  for(int i=M;i>0;i--)
-  {
-    for(int j=N;j>0;j--)
-    {
-      gameGrid[i][j]=0;
-    }
-  }
-  for(int i=0;i<4;i++)
-  {
-    for(int j=0;j<2;j++)
-    {
-      point_1[i][j]=0;
-      point_2[i][j]=0;
-    }
-  }
-  return;
 }
 bool gameEnd() //GameOver Fn
 {
