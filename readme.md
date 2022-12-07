@@ -27,7 +27,7 @@ Based on Minimial OOP, mostly basic C++
 
 * GNU LINUX: 
 
-               # Note you should have g++ compiler installed
+               # Note you should have a cpp compiler installed e.g. g++
             1. install sfml using : sudo apt install libsfml-dev
             2. g++ -c main.cpp
             3. g++ main.o -o tetris -lsfml-graphics -lsfml-window -lsfml-system
