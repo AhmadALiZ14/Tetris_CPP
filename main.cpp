@@ -61,17 +61,17 @@ int main(){
     
     Sprite sprite(obj1), background(obj2), frame(obj3),shadow(obj4),nextBlock(obj5),bomb(obj6);
     
-	//Variables Declaration
+    ////////Variables Declaration////////
     int delta_x=0,points=0,elapsed=0,lines=0,colorNum=rand()%8,nxtPiece=rand()%7,nxtColor=rand()%8;
-	int nxtBlock[4][2],tmp_1[4][2],tmp_2[4][2]; //tmp arrays are for shadow
+    int nxtBlock[4][2],tmp_1[4][2],tmp_2[4][2]; //tmp arrays are for shadow
     int bomb_1[1][1],bomb_2[1][1],colorBomb=rand()%8; //for bomb coordinates and colors
-	float timer=0, delay=0.3;
-	std::stringstream scr,lns,scrT,lnsT;
+    float timer=0, delay=0.3;
+    std::stringstream scr,lns,scrT,lnsT;
     
     //skip will skip fallingpiece fn in case instant/hard drop fn is called
     //firstRun run when game starts thus replacing the first single block tetromino
     bool rotate=false,firstRun=true,lvlUP=false,skip=false;//bomb=false;
-	//Variables Declaration End
+    ///////////Variables Declaration End/////////////
 	
     Clock clock;
     while (window.isOpen())
