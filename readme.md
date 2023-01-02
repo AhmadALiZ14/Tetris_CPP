@@ -24,7 +24,7 @@
 
 -----------COMPILE AND RUN-----------
 
-* GNU LINUX: 
+* GNU LINUX(debian based): 
 
                # Note you should have a cpp compiler installed e.g. g++
             1. install sfml using : sudo apt install libsfml-dev
