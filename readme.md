@@ -1,5 +1,6 @@
 * AhmedAZ14,CS,FASTNU
 * Tetris Game in C++ using SFML Library
+* Can only use Arrays, no advanced C++ stuff
 
 ---------FEATURES----------
 
